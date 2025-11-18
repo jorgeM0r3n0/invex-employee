@@ -35,13 +35,11 @@ public class EmployeeRequest {
   @Size(min = ValidationMessagesConstant.MIN_SIZE_36, max = ValidationMessagesConstant.MAX_SIZE_36,
       message =
       ValidationMessagesConstant.ID_EMPLOYEE_SIZE_36)
-  @NotNull(message = ValidationMessagesConstant.NOT_NULL)
   @Schema(
       description = ApiDescriptionsConstant.EMPLOYEE_ID_DESC,
       example = ApiDescriptionsConstant.EMPLOYEE_ID_EXAMPLE,
       maxLength = ValidationMessagesConstant.MIN_SIZE_36,
-      minLength = ValidationMessagesConstant.MAX_SIZE_36,
-      required = true
+      minLength = ValidationMessagesConstant.MAX_SIZE_36
   )
   private String idEmployee;
 

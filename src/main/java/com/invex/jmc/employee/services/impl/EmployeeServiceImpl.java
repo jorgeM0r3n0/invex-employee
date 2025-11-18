@@ -15,6 +15,10 @@ import com.invex.jmc.employee.model.repositories.JobPositionRepository;
 import com.invex.jmc.employee.model.repositories.SexRepository;
 import com.invex.jmc.employee.services.EmployeeService;
 import com.invex.jmc.employee.util.MapperUtil;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -111,10 +115,13 @@ public class EmployeeServiceImpl implements EmployeeService {
           employeeRequest.getIdJobPosition())
           .orElseThrow(() -> new JobPositionNotFoundException(employeeRequest.getIdJobPosition()));
 
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       EmployeeEntity employeeEntity = mapperUtil.map(employeeRequest, EmployeeEntity.class);
+      employeeEntity.setBirthDay(LocalDate.parse(employeeRequest.getBirthDay(), formatter));
       employeeEntity.setSex(sexEntity);
       employeeEntity.setJobPosition(jobPositionEntity);
       employeeEntity.setIdEmployee(UUID.randomUUID().toString());
+      employeeEntity.setTs(LocalDateTime.now());
       employeeEntityList.add(employeeEntity);
     }
 

@@ -126,7 +126,84 @@ Controller → Service → Repository → Database
  ```
 
 ### 2. Get employee by ID
+* GET /api/employees/{id}  
+  Fetch an employee using its unique identifier.
+ ```
+ curl --location 'http://localhost:9080/api/employees/123c2dd1-c102-11f0-9884-ae32cdf1c2ae'
+ ```
+* Response  
+  200 OK – List of Employee objects.  
+  404 Not Found – Employee does not exist
+ ```json
+{
+  "idEmployee": "123c2dd1-c102-11f0-9884-ae32cdf1c2ae",
+  "firstName": "a",
+  "middleName": "a",
+  "paternalSurname": "a",
+  "maternalSurname": "a",
+  "sex": {
+    "idSex": "50284c0c-c0fd-11f0-9884-ae32cdf1c2ae",
+    "code": "M",
+    "description": "Male"
+  },
+  "jobPosition": {
+    "idJobPosition": "84d8a183-c0fd-11f0-9884-ae32cdf1c2ae",
+    "code": "HRM",
+    "description": "Human Resources Manager"
+  },
+  "birthDay": "23/04/1971",
+  "age": 54,
+  "status": true,
+  "ts": "13/11/2025 20:31:48"
+}
+ ```
+
 ### 3. Create employees
+* POST /api/employees  
+  Fetch an employee using its unique identifier.
+ ```
+curl --location 'http://localhost:9080/api/employees' \
+--header 'Content-Type: application/json' \
+--data '{
+    "employees": [
+        {
+            "firstName": "Otro",
+            "middleName": "Carlos",
+            "paternalSurname": "Moreno",
+            "maternalSurname": "García",
+            "idSex": "50284c0c-c0fd-11f0-9884-ae32cdf1c2ae",
+            "idJobPosition": "84d89fe9-c0fd-11f0-9884-ae32cdf1c2ae",
+            "birthDay": "23/04/1971",
+            "status": true
+        }
+    ]
+}
+'
+ ```
+* Request  
+ ```json
+{
+  "employees": [
+    {
+      "firstName": "Otro",
+      "middleName": "Carlos",
+      "paternalSurname": "Moreno",
+      "maternalSurname": "García",
+      "idSex": "50284c0c-c0fd-11f0-9884-ae32cdf1c2ae",
+      "idJobPosition": "84d89fe9-c0fd-11f0-9884-ae32cdf1c2ae",
+      "birthDay": "23/04/1971",
+      "status": 0
+    }
+  ]
+}
+
+```
+
+* Response  
+  201 Created – List of created employees.  
+ ```json
+ ```
+
 ### 4. Update employee
 ### 5. Delete employee
 ### 4. Search employees by name
