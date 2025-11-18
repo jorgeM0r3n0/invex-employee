@@ -48,6 +48,7 @@ Controller → Service → Repository → Database
     http://localhost:9080/swagger-ui/index.html
     ```
 * Testing  
+  
   * The project includes:
   * Unit tests using JUnit 5
   * Mockito for mocking services and repositories
@@ -58,6 +59,15 @@ Controller → Service → Repository → Database
     
     file:/invex-employee/target/site/jacoco/index.html
     ```
+* Docker
+    ```
+    docker build -t invex-employee:1.0 .
+  
+    docker images
+  
+    docker run -p 9080:9080 invex-employee:1.0
+    ```
+
 
 ## API Endpoints
 ### 1. List all employees

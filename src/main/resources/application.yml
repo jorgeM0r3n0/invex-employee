@@ -43,27 +43,27 @@ spring:
     max-lifetime: 1800000
     connection-timeout: 30000
 
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://jorgeAdmin:eurekaJMC@localhost:8761/eureka/
-#  instance:
-#    prefer-ip-address: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://jorgeAdmin:eurekaJMC@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
 
 # Actuator
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"           # expone todos los endpoints
-#  endpoint:
-#    health:
-#      show-details: always     # ver detalles de health en dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"           # expone todos los endpoints
+  endpoint:
+    health:
+      show-details: always     # ver detalles de health en dev
 
 # Información personalizada para /actuator/info
-#info:
-#  app:
-#    name: invex-employee
-#    version: 1.0.0
+info:
+  app:
+    name: invex-employee
+    version: 1.0.0
