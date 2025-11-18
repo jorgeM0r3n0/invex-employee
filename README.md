@@ -48,7 +48,7 @@ Controller → Service → Repository → Database
     http://localhost:9080/swagger-ui/index.html
     ```
 * Testing  
-  
+  ![Descripción](img.png)
   * The project includes:
   * Unit tests using JUnit 5
   * Mockito for mocking services and repositories
