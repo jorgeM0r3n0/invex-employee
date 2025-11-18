@@ -1,5 +1,6 @@
 package com.invex.jmc.employee.services.impl;
 
+import com.invex.jmc.employee.exceptions.EmployeeDuplicateExceptionWithField;
 import com.invex.jmc.employee.exceptions.EmployeeNotFoundException;
 import com.invex.jmc.employee.exceptions.JobPositionNotFoundException;
 import com.invex.jmc.employee.exceptions.SexNotFoundException;
@@ -15,12 +16,12 @@ import com.invex.jmc.employee.model.repositories.JobPositionRepository;
 import com.invex.jmc.employee.model.repositories.SexRepository;
 import com.invex.jmc.employee.services.EmployeeService;
 import com.invex.jmc.employee.util.MapperUtil;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    *
    * @param employeesRequest a request object containing a list of employees to create
    * @return a list of created {@link Employee} DTOs
+   * @throws EmployeeDuplicateExceptionWithField if employee full name is duplicated
    * @throws SexNotFoundException if the referenced sex ID does not exist
    * @throws JobPositionNotFoundException if the referenced job position ID does not exist
    */
@@ -108,6 +110,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     List<EmployeeEntity> employeeEntityList = new ArrayList<>();
 
     for (EmployeeRequest employeeRequest : employeeRequestList) {
+      if (Objects.equals(Boolean.TRUE,
+          employeeRepository
+          .existsByFullName(
+            employeeRequest.getFirstName(), employeeRequest.getMiddleName(),
+            employeeRequest.getPaternalSurname(),
+            employeeRequest.getMaternalSurname()))) {
+        throw new EmployeeDuplicateExceptionWithField("FirstName & MiddleName & PaternalSurname &"
+            + " MaternalSurname", "Exists a employee with the same name");
+      }
+
       SexEntity sexEntity = sexRepository.findById(employeeRequest.getIdSex())
           .orElseThrow(() -> new SexNotFoundException(employeeRequest.getIdSex()));
 
@@ -135,12 +147,23 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param idEmployee the ID of the employee to update
    * @param employeeRequest a DTO containing updated employee information
    * @return the updated {@link Employee} DTO
+   * @throws EmployeeDuplicateExceptionWithField if employee full name is duplicated
    * @throws EmployeeNotFoundException if no employee exists with the given ID
    * @throws JobPositionNotFoundException if the job position ID does not exist
    * @throws SexNotFoundException if the sex ID does not exist
    */
   @Override
   public Employee updateEmployee(String idEmployee, EmployeeRequest employeeRequest) {
+    if (Objects.equals(Boolean.TRUE,
+        employeeRepository
+        .existsByFullName(
+          employeeRequest.getFirstName(), employeeRequest.getMiddleName(),
+          employeeRequest.getPaternalSurname(),
+          employeeRequest.getMaternalSurname()))) {
+      throw new EmployeeDuplicateExceptionWithField("FirstName & MiddleName & PaternalSurname &"
+          + " MaternalSurname", "Exists a employee with the same name");
+    }
+
     EmployeeEntity employeeEntity = employeeRepository.findById(idEmployee)
         .orElseThrow(() -> new EmployeeNotFoundException(idEmployee));
 

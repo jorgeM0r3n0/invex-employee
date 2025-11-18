@@ -6,7 +6,7 @@ public class EncryptorUtil {
 
   public static void main(String[] args) {
     AES256TextEncryptor encryptor = new AES256TextEncryptor();
-    encryptor.setPassword("MI_LLAVE_SECRETA"); // la pasas como parámetro si quieres
+    encryptor.setPassword("MI_LLAVE_SECRETA");
 
     String plaintext = "eurekaJMC";
     String encrypted = encryptor.encrypt(plaintext);

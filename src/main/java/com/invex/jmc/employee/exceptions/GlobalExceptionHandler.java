@@ -29,6 +29,24 @@ public class GlobalExceptionHandler {
    * @param ex the exception thrown when an employee is not found
    * @return a {@link ResponseEntity} containing an {@link ErrorResponse} with HTTP 404 status
    */
+  @ExceptionHandler(EmployeeDuplicateException.class)
+  public ResponseEntity<ErrorResponse> handleNotFound(EmployeeDuplicateExceptionWithField ex) {
+    ErrorResponse error = new ErrorResponse();
+    error.setMensaje("Employee not found");
+    error.setCampo(ex.getField());
+    error.setDetalle(ex.getMessage());
+    error.setTimestamp(LocalDateTime.now());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+  }
+
+  /**
+   * Handles {@link EmployeeNotFoundException} exceptions.
+   *
+   * <p>Triggered when an employee is requested by ID but does not exist in the system.
+   *
+   * @param ex the exception thrown when an employee is not found
+   * @return a {@link ResponseEntity} containing an {@link ErrorResponse} with HTTP 404 status
+   */
   @ExceptionHandler(EmployeeNotFoundException.class)
   public ResponseEntity<ErrorResponse> handleNotFound(EmployeeNotFoundException ex) {
     ErrorResponse error = new ErrorResponse();

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS invex.cat_job_position (id_job_position varchar(36) DEFAULT (uuid()) NOT
+NULL, code varchar(3) NOT NULL, description varchar(100) NOT NULL, PRIMARY KEY (id_job_position)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS invex.cat_sex (id_sex varchar(36) DEFAULT (uuid()) NOT NULL, code varchar
+(1) NOT NULL, description varchar(50) NOT NULL, PRIMARY KEY (id_sex)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS invex.employee (id_employee varchar(36) DEFAULT (uuid()) NOT NULL,
+first_name varchar(100), middle_name varchar(100), paternal_surname varchar(100), maternal_surname varchar(100), birth_day date, id_job_position varchar(36), id_sex varchar(36), ts datetime DEFAULT CURRENT_TIMESTAMP, status int, PRIMARY KEY (id_employee), INDEX employee_fk1 (id_job_position), INDEX employee_fk2 (id_sex)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+ALTER TABLE IF NOT EXISTS `invex`.`employee` ADD CONSTRAINT employee_fk1 FOREIGN KEY
+(`id_job_position`) REFERENCES `invex`.`cat_job_position` (`id_job_position`) ;
+ALTER TABLE IF NOT EXISTS `invex`.`employee` ADD CONSTRAINT employee_fk2 FOREIGN KEY (`id_sex`)
+REFERENCES `invex`.`cat_sex` (`id_sex`);
