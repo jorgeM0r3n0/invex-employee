@@ -18,14 +18,14 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3307/invex?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
-    password: adminMysql
+    password: ENC(vxkihes8yoCAg+H3bEa++4fceb/ihWzhr5d9wqPZkYV+TewqzlRKFuKgWfOc+4GC)
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: invex-employee
   security:
     user:
       name: jorgeAdmin
-      password: eurekaJMC
+      password: ENC(Uo5yOlC7DxUp7hb0WlP1E7xpWt7dseOxjzp5PWCyY3ijkKeHYok40655wPQz7OzX)
 
   jpa:
     hibernate:
