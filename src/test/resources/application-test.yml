@@ -1,0 +1,30 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb   # Base en memoria llamada testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true           # Habilita la consola web
+        path: /h2-console       # URL de acceso a la consola
+
+  jpa:
+    hibernate:
+      ddl-auto: update        # create, update, validate, none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  # Opcional: configuraciones del pool de conexiones Hikari
+  datasource.hikari:
+    maximum-pool-size: 10
+    minimum-idle: 2
+    idle-timeout: 30000
+    max-lifetime: 1800000
+    connection-timeout: 30000
