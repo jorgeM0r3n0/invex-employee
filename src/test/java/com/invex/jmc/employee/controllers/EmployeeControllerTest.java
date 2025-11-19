@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.invex.jmc.employee.constants.ConstantsUtil;
 import com.invex.jmc.employee.model.dto.Employee;
 import com.invex.jmc.employee.model.dto.request.EmployeeRequest;
 import com.invex.jmc.employee.model.dto.request.EmployeesRequest;
@@ -22,6 +23,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -61,6 +63,7 @@ class EmployeeControllerTest {
   private EmployeesRequest employeesRequest;
   private EmployeeRequest employeeRequest;
   private Employee employee;
+  HttpHeaders httpHeaders;
 
   @BeforeEach
   void setUp() {
@@ -80,6 +83,9 @@ class EmployeeControllerTest {
         employeeJson,
         new TypeReference<Employee>() {}
       );
+      httpHeaders = new HttpHeaders();
+      httpHeaders.add(ConstantsUtil.APPLICATION_JSON, "json");
+      httpHeaders.add(ConstantsUtil.ACCEPT, "*/*");
     }
     catch (JsonProcessingException e) {
       throw new RuntimeException(e);
@@ -93,7 +99,7 @@ class EmployeeControllerTest {
   @Test
   void getAllEmployees() {
     when(employeeService.getAllEmployee()).thenReturn(employeeList);
-    ResponseEntity<List<Employee>> responseEntity = employeeController.getAllEmployees();
+    ResponseEntity<List<Employee>> responseEntity = employeeController.getAllEmployees(httpHeaders);
     assertNotNull(responseEntity.getBody());
     assertEquals(employeeList.size(), responseEntity.getBody().size());
   }
@@ -101,7 +107,7 @@ class EmployeeControllerTest {
   @Test
   void getEmployeeById() {
     when(employeeService.getEmployeeById(idEmployee)).thenReturn(employee);
-    ResponseEntity<Employee> responseEntity = employeeController.getEmployeeById(idEmployee);
+    ResponseEntity<Employee> responseEntity = employeeController.getEmployeeById(idEmployee,httpHeaders);
     assertNotNull(responseEntity.getBody());
     assertEquals(idEmployee, responseEntity.getBody().getIdEmployee());
   }
@@ -109,7 +115,8 @@ class EmployeeControllerTest {
   @Test
   void addEmployees() {
     when(employeeService.addEmployees(employeesRequest)).thenReturn(employeeList);
-    ResponseEntity<List<Employee>> responseEntity = employeeController.addEmployees(employeesRequest);
+    ResponseEntity<List<Employee>> responseEntity =
+      employeeController.addEmployees(employeesRequest,httpHeaders);
     assertNotNull(responseEntity.getBody());
     assertEquals(employeeList.size(), responseEntity.getBody().size());
   }
@@ -118,14 +125,14 @@ class EmployeeControllerTest {
   void updateEmployee() {
     when(employeeService.updateEmployee(idEmployee,employeeRequest)).thenReturn(employeeList.get(0));
     ResponseEntity<Employee> responseEntity = employeeController.updateEmployee(idEmployee,
-      employeeRequest);
+      employeeRequest,httpHeaders);
     assertNotNull(responseEntity.getBody());
   }
 
   @Test
   void deleteEmployee() {
     doNothing().when(employeeService).deleteEmployee(idEmployee);
-    ResponseEntity<Void> responseEntity = employeeController.deleteEmployee(idEmployee);
+    ResponseEntity<Void> responseEntity = employeeController.deleteEmployee(idEmployee,httpHeaders);
     assertNotNull(responseEntity);
   }
 
@@ -133,7 +140,7 @@ class EmployeeControllerTest {
   void searchEmployeeByName() {
     String txt = "ore";
     when(employeeService.searchEmployeeByName(txt)).thenReturn(employeeList);
-    ResponseEntity<List<Employee>> responseEntity = employeeController.searchEmployeeByName(txt);
+    ResponseEntity<List<Employee>> responseEntity = employeeController.searchEmployeeByName(txt,httpHeaders);
     assertNotNull(responseEntity.getBody());
     assertEquals(employeeList.size(), responseEntity.getBody().size());
   }

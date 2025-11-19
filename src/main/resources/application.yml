@@ -5,11 +5,17 @@ server:
     include-stacktrace: always
 
 logging:
+  pattern:
+    console: "%date %clr(%-5level) %cyan(%logger{15}) [%X{headers}] : %msg %n"
   level:
-    org:
-      springdoc: DEBUG
-      springframework:
-        web: DEBUG
+    root: INFO
+    com.invex.jmc.employee: DEBUG
+    org.hibernate.type.descriptor.sql: ERROR
+    org.hibernate.stat: ERROR
+    org.springdoc: ERROR
+    org.springframework.web: ERROR
+  headers:
+  - uuid
 
 springdoc:
   use-bean-validation: true
@@ -30,7 +36,7 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -70,3 +76,11 @@ info:
   app:
     name: invex-employee
     version: 1.0.0
+
+########## HEADERS
+headers:
+  apis:
+    -
+      name: invex-employee
+      required:
+      - Accept

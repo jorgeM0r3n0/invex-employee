@@ -288,8 +288,8 @@ curl --location --request PUT 'http://localhost:9080/api/employees/e79ce531-0bac
 * DELETE /api/employees/{id}  
   Deletes the employee with the given ID.
  ```
-curl --location --request DELETE 'http://localhost:9080/api/employees/9645c85c-5908-4d19-bb4a-734c92e4890d' ```
-```
+curl --location --request DELETE 'http://localhost:9080/api/employees/9645c85c-5908-4d19-bb4a-734c92e4890d'
+ ```
 
 * Response  
   204 No Content – Employee deleted.
