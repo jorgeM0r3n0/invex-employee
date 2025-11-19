@@ -91,8 +91,9 @@ public class EmployeeController {
         @ApiResponse(responseCode = "404", description = "Employee not found")
       }
   )
-  public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") String id, @RequestHeader @HeaderConstraint(api =
-    ConstantsUtil.HEADERS_CONSTRAINT
+  public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") String id,
+                                                  @RequestHeader @HeaderConstraint(api =
+      ConstantsUtil.HEADERS_CONSTRAINT
   ) HttpHeaders headers) {
     LoggerUtils.logInfoJson(log, LoggerConstantsUtil.EMPLOYEE_PERFORMANCE_HEADERS, headers);
     return ResponseEntity.ok().body(employeeService.getEmployeeById(id));
@@ -112,7 +113,7 @@ public class EmployeeController {
   public ResponseEntity<List<Employee>> addEmployees(@Valid @RequestBody
                                                       EmployeesRequest employeesRequest,
                                                      @RequestHeader @HeaderConstraint(api =
-    ConstantsUtil.HEADERS_CONSTRAINT
+      ConstantsUtil.HEADERS_CONSTRAINT
   ) HttpHeaders headers) {
     LoggerUtils.logInfoJson(log, LoggerConstantsUtil.EMPLOYEE_PERFORMANCE_HEADERS, headers);
     return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -149,8 +150,9 @@ public class EmployeeController {
       summary = "Delete employee",
       description = "Deletes an employee by its ID"
   )
-  public ResponseEntity<Void> deleteEmployee(@PathVariable("id") String id, @RequestHeader @HeaderConstraint(api =
-    ConstantsUtil.HEADERS_CONSTRAINT
+  public ResponseEntity<Void> deleteEmployee(@PathVariable("id") String id,
+                                             @RequestHeader @HeaderConstraint(api =
+      ConstantsUtil.HEADERS_CONSTRAINT
   ) HttpHeaders headers) {
     LoggerUtils.logInfoJson(log, LoggerConstantsUtil.EMPLOYEE_PERFORMANCE_HEADERS, headers);
     employeeService.deleteEmployee(id);

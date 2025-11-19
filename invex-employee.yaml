@@ -1,0 +1,322 @@
+openapi: 3.0.1
+info:
+  title: API de Empleados
+  description: Documentación OpenAPI con Springdoc
+  version: "1.0"
+servers:
+- url: http://localhost:9080
+  description: Generated server url
+tags:
+- name: Employees
+  description: Operations related to employees
+paths:
+  /api/employees/{id}:
+    get:
+      tags:
+      - Employees
+      summary: Get employee by ID
+      description: Fetches employee details for the given ID
+      operationId: getEmployeeById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Employee found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "404":
+          description: Employee not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Employee"
+    put:
+      tags:
+      - Employees
+      summary: Update employee
+      description: Updates an existing employee identified by its ID
+      operationId: updateEmployee
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Employee"
+    delete:
+      tags:
+      - Employees
+      summary: Delete employee
+      description: Deletes an employee by its ID
+      operationId: deleteEmployee
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/employees:
+    get:
+      tags:
+      - Employees
+      summary: List all employees
+      description: Returns the complete list of employees
+      operationId: getAllEmployees
+      responses:
+        "200":
+          description: Employees retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+    post:
+      tags:
+      - Employees
+      summary: Crear empleado
+      description: Inserta uno o varios empleados
+      operationId: addEmployees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeesRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+  /api/employees/search:
+    get:
+      tags:
+      - Employees
+      summary: Search employees by name
+      description: Returns employees whose full name contains the given text
+      operationId: searchEmployeeByName
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+components:
+  schemas:
+    EmployeeRequest:
+      required:
+      - idJobPosition
+      - idSex
+      type: object
+      properties:
+        idEmployee:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Unique identifier of the employee (UUID). Optional when creating.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        firstName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Employee's first name.
+          example: John
+        middleName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Employee's middle name (optional).
+          example: Alexander
+        paternalSurname:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Employee's paternal surname.
+          example: Smith
+        maternalSurname:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Employee's maternal surname.
+          example: Johnson
+        idSex:
+          type: string
+          description: Foreign key referencing the sex catalog.
+          example: 550e8400-e29b-41d4-a716-446655440111
+        idJobPosition:
+          type: string
+          description: Foreign key referencing the job position catalog.
+          example: 550e8400-e29b-41d4-a716-446655440222
+        birthDay:
+          type: string
+          description: Birth date of the employee in dd/MM/yyyy format.
+          example: 25/12/1990
+        status:
+          type: integer
+          description: "Employee status (true = active, false = inactive)."
+          format: int32
+      description: Request object for creating or updating employee information.
+    Employee:
+      required:
+      - idEmployee
+      - jobPosition
+      - sex
+      type: object
+      properties:
+        idEmployee:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Unique identifier of the employee (UUID). Optional when creating.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        firstName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: First name of the employee
+          example: John
+        middleName:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Middle name of the employee
+          example: William
+        paternalSurname:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Paternal surname of the employee
+          example: Smith
+        maternalSurname:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Maternal surname of the employee
+          example: Johnson
+        sex:
+          $ref: "#/components/schemas/Sex"
+        jobPosition:
+          $ref: "#/components/schemas/JobPosition"
+        birthDay:
+          type: string
+          description: Birth date of the employee
+          format: date
+        age:
+          type: integer
+          description: "Age of the employee, calculated from birthDay"
+          format: int32
+          readOnly: true
+          example: 33
+        status:
+          type: boolean
+          description: Active status of the employee
+          example: true
+        ts:
+          type: string
+          description: Timestamp of the employee's creation or last update
+          format: date-time
+      description: Represents an employee with personal and job information
+    JobPosition:
+      required:
+      - code
+      - description
+      - idJobPosition
+      type: object
+      properties:
+        idJobPosition:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Foreign key referencing the job position catalog.
+          example: 550e8400-e29b-41d4-a716-446655440222
+        code:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Code for job position
+          example: CEO
+        description:
+          maxLength: 100
+          minLength: 36
+          type: string
+          description: Description for job position
+          example: Chief Executive Officer
+      description: Job position of the employee
+    Sex:
+      required:
+      - code
+      - description
+      - idSex
+      type: object
+      properties:
+        idSex:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Unique identifier of the sex (UUID).
+          example: 550e8400-e29b-41d4-a716-446655440000
+        code:
+          type: string
+          description: "Short code representing the sex. Examples: M = Male, F = Female,\
+            \ I = Intersex, U = Unknown."
+          example: M
+        description:
+          type: string
+          description: Full description of the sex.
+          example: Male
+      description: Represents a biological sex catalog entry used within the system.
+    EmployeesRequest:
+      required:
+      - employees
+      type: object
+      properties:
+        employees:
+          type: array
+          description: List of employees to be created. Each entry must be a valid
+            EmployeeRequest.
+          items:
+            $ref: "#/components/schemas/EmployeeRequest"
+      description: Request object for bulk creation of employees. Contains a list
+        of EmployeeRequest items.

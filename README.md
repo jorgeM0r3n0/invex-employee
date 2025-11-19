@@ -351,3 +351,11 @@ curl --location 'http://localhost:9080/api/employees/search?name=ore' \
   }
 ]
  ```
+## 📘 API Documentation
+
+You can view or download the OpenAPI (Swagger) specification in YAML format at the following link:  
+**Swagger UI:**  
+http://localhost:9080/swagger-ui/index.html  
+**Swagger yml:**  
+[openapi.yaml](http://localhost:9080/v3/api-docs.yaml)  
+This file contains the complete definition of the API endpoints, models, parameters, and response codes.
