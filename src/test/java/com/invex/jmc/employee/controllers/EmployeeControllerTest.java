@@ -84,6 +84,7 @@ class EmployeeControllerTest {
       httpHeaders = new HttpHeaders();
       httpHeaders.add(ConstantsUtil.APPLICATION_JSON, "json");
       httpHeaders.add(ConstantsUtil.ACCEPT, "*/*");
+      httpHeaders.add("uuid", "chispitas");
     }
     catch (JsonProcessingException e) {
       throw new RuntimeException(e);

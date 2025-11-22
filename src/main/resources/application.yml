@@ -5,8 +5,11 @@ server:
     include-stacktrace: always
 
 logging:
+  file:
+    name: logs/${info.app.name}.log
   pattern:
-    console: "%date %clr(%-5level) %cyan(%logger{15}) [%X{headers}] : %msg %n"
+    console: "%msg %n"
+    file: "%d{HH:mm:ss} %-5level %logger{15} [%X{headers}] : %msg %n"
   level:
     root: INFO
     com.invex.jmc.employee: DEBUG
@@ -27,7 +30,7 @@ spring:
     password: ENC(vxkihes8yoCAg+H3bEa++4fceb/ihWzhr5d9wqPZkYV+TewqzlRKFuKgWfOc+4GC)
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
-    name: invex-employee
+    name: ${info.app.name}
   security:
     user:
       name: jorgeAdmin
@@ -74,7 +77,7 @@ management:
 # Información personalizada para /actuator/info
 info:
   app:
-    name: invex-employee
+    name: ${info.app.name}
     version: 1.0.0
 
 ########## HEADERS Validación
@@ -84,3 +87,4 @@ headers:
       name: invex-employee
       required:
       - Accept
+      - uuid
